@@ -1,0 +1,34 @@
+name: Скриншоты
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Установка шрифта и pygame
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-dejavu-core
+          pip install -r requirements.txt
+
+      - name: Создание скриншотов
+        run: python demo_screenshots.py
+
+      - name: Сохранение скриншотов в репозиторий
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add screenshots
+          git commit -m "Добавлены скриншоты" || echo "Изменений нет"
+          git push
