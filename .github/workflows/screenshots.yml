@@ -9,6 +9,9 @@ permissions:
 jobs:
   screenshots:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: practice_02
     steps:
       - uses: actions/checkout@v4
 
